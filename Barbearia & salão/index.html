@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio Blade & Beauty | Fila Inteligente</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header>
+    <div class="logo">STUDIO <span>BLADE & BEAUTY</span></div>
+    <div id="auth-area">
+        <button class="btn btn-gold" onclick="abrirModal('modal-auth')">Entrar / Cadastrar</button>
+    </div>
+</header>
+
+<div class="container">
+    <div id="meu-ticket-box">
+        <div class="ticket-header">
+            <div>
+                <small style="color: var(--text-muted);">SEU ATENDIMENTO COM</small>
+                <h2 id="ticket-prof-nome" style="color: var(--gold);">---</h2>
+                <span id="ticket-servico" style="font-size: 0.85rem; color: var(--text-muted);">---</span>
+            </div>
+            <div class="badge-live"><div class="pulse"></div> AO VIVO</div>
+        </div>
+        <div class="ticket-stats">
+            <div class="stat-card">
+                <h3 id="ticket-frente">0</h3>
+                <p>Pessoas na sua frente</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="ticket-tempo">0 min</h3>
+                <p>Previsão de espera</p>
+            </div>
+        </div>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
+            📲 Você receberá um alerta automático no seu <strong>WhatsApp</strong> quando faltarem <strong>15 minutos</strong> para a sua vez.
+        </p>
+        <button class="btn btn-danger" style="width: 100%;" onclick="sairDaFila()">Cancelar / Sair da Fila</button>
+    </div>
+
+    <h2 style="margin-bottom: 12px;">Escolha seu Profissional</h2>
+    <div class="filter-bar">
+        <button class="filter-btn active" onclick="filtrarProfissao('Todos', this)">Todos</button>
+        <button class="filter-btn" onclick="filtrarProfissao('Barbeiro', this)">✂️ Barbeiros</button>
+        <button class="filter-btn" onclick="filtrarProfissao('Cabeleireira', this)">💇‍♀️ Cabeleireiras</button>
+    </div>
+
+    <div class="grid-profs" id="lista-profissionais"></div>
+
+    <div class="admin-section">
+        <h3 style="color: var(--gold); margin-bottom: 8px;">⚙️ Painel Operacional (Controle dos Profissionais)</h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
+            Quando o atendimento é atualizado aqui, o tempo da fila recalcula e o WhatsApp de 15 min dispara automaticamente.
+        </p>
+        <div id="lista-fila-admin"></div>
+    </div>
+</div>
+
+<div class="modal" id="modal-auth">
+    <div class="modal-content">
+        <h2 id="auth-title">Entrar na Conta</h2>
+        <div class="form-group" id="grupo-nome" style="display: none;">
+            <label>Seu Nome Completo</label>
+            <input type="text" id="auth-nome" placeholder="Ex: João Silva">
+        </div>
+        <div class="form-group">
+            <label>WhatsApp (com DDD)</label>
+            <input type="tel" id="auth-telefone" placeholder="Ex: 41999998888">
+        </div>
+        <div class="form-group">
+            <label>Senha</label>
+            <input type="password" id="auth-senha" placeholder="**">
+        </div>
+        <button class="btn btn-gold" style="width: 100%; margin-bottom: 10px;" onclick="enviarAuth()">Continuar</button>
+        <button class="btn btn-outline" style="width: 100%; margin-bottom: 10px;" onclick="alternarModoAuth()" id="btn-toggle-auth">
+            Não tem conta? Cadastre-se
+        </button>
+        <button class="btn" style="width: 100%; background: transparent; color: var(--text-muted);" onclick="fecharModal('modal-auth')">Fechar</button>
+    </div>
+</div>
+
+<div class="modal" id="modal-servico">
+    <div class="modal-content">
+        <h2>Entrar na Fila</h2>
+        <p id="modal-prof-selecionado" style="margin-bottom: 16px; color: var(--text-muted);"></p>
+        <div class="form-group">
+            <label>Selecione o Serviço</label>
+            <select id="select-servico">
+                <option value="Corte Masculino">Corte Masculino</option>
+                <option value="Corte + Barba">Corte + Barba</option>
+                <option value="Barba Terapia">Barba Terapia</option>
+                <option value="Corte Feminino">Corte Feminino</option>
+                <option value="Escova / Hidratação">Escova / Hidratação</option>
+                <option value="Coloração / Mechas">Coloração / Mechas</option>
+            </select>
+        </div>
+        <button class="btn btn-gold" style="width: 100%; margin-bottom: 10px;" onclick="confirmarEntradaFila()">Confirmar na Fila</button>
+        <button class="btn" style="width: 100%; background: transparent; color: var(--text-muted);" onclick="fecharModal('modal-servico')">Cancelar</button>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
