@@ -28,7 +28,7 @@ function formatarMoeda(v) {
 
 async function iniciarApp() {
     try {
-        const res = await fetch(${API_URL}/check-auth, { credentials: "include" });
+        const res = await fetch('${API_URL}/check-auth', { credentials: "include" });
         if (!res.ok) {
             window.location.href = "login.html";
             return;
@@ -39,7 +39,7 @@ async function iniciarApp() {
             return;
         }
 
-        document.getElementById("badgeUsuario").textContent = ${sessao.username} (${sessao.role.toUpperCase()});
+        document.getElementById("badgeUsuario").textContent = '${sessao.username}' ('${sessao.role.toUpperCase()}');
 
         if (sessao.role === "gestor") {
             document.getElementById("subtituloPerfil").textContent = "Visão Gerencial e Previsão";
@@ -59,7 +59,7 @@ async function iniciarApp() {
 
 document.getElementById("btnLogout").addEventListener("click", async () => {
     await pararScanner();
-    await fetch(${API_URL}/logout, { method: "POST", credentials: "include" });
+    await fetch('${API_URL}/logout', { method: "POST", credentials: "include" });
     window.location.href = "login.html";
 });
 
@@ -67,20 +67,20 @@ document.getElementById("btnLogout").addEventListener("click", async () => {
 // VISÃO DO GESTOR
 // =========================================================================
 async function carregarPainelGestor() {
-    const res = await fetch(${API_URL}/gestor/dashboard, { credentials: "include" });
+    const res = await fetch('${API_URL}/gestor/dashboard', { credentials: "include" });
     if (!res.ok) return;
     const dados = await res.json();
 
     const { kpis, configuracao, comparativo, produtos, alertas, previsao_compra } = dados;
 
-    document.getElementById("gKpiEstoque").textContent = ${kpis.total_estoque} un.;
-    document.getElementById("gPctEstoque").textContent = ${kpis.pct_estoque}% do fluxo;
-    document.getElementById("gKpiVenda").textContent = ${kpis.total_venda} un.;
-    document.getElementById("gPctVenda").textContent = ${kpis.pct_venda}% do fluxo;
+    document.getElementById("gKpiEstoque").textContent = '${kpis.total_estoque} un';
+    document.getElementById("gPctEstoque").textContent =' ${kpis.pct_estoque}% do fluxo';
+    document.getElementById("gKpiVenda").textContent = '${kpis.total_venda} un';
+    document.getElementById("gPctVenda").textContent = '${kpis.pct_venda}% do fluxo';
     document.getElementById("gValorEstoque").textContent = formatarMoeda(kpis.valor_estoque);
-    document.getElementById("gValorVenda").textContent = Área de venda: ${formatarMoeda(kpis.valor_venda)};
-    document.getElementById("gEspacoLivre").textContent = ${kpis.espaco_livre} un.;
-    document.getElementById("gEspacoDetalhe").textContent = Ocupado: ${kpis.espaco_ocupado} / Total: ${kpis.capacidade_total};
+    document.getElementById("gValorVenda").textContent = `Área de venda: ${formatarMoeda(kpis.valor_venda)}`;
+    document.getElementById("gEspacoLivre").textContent = '${kpis.espaco_livre} un.';
+    document.getElementById("gEspacoDetalhe").textContent = Ocupado; '${kpis.espaco_ocupado}' / 'Total: ${kpis.capacidade_total}';
 
     document.getElementById("inputHorarioFechamento").value = configuracao.horario_fechamento;
     document.getElementById("inputGestorPlantao").value = configuracao.gestor_plantao;
@@ -208,7 +208,7 @@ function renderizarTabelaGestor(produtos) {
 async function salvarNovoPreco(event, produtoId) {
     event.preventDefault();
     const novoPreco = event.target.querySelector("input").value;
-    const res = await fetch(${API_URL}/gestor/alterar-preco, {
+    const res = await fetch('${API_URL}/gestor/alterar-preco', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -221,7 +221,7 @@ async function salvarNovoPreco(event, produtoId) {
 
 document.getElementById("formConfigExpediente").addEventListener("submit", async (e) => {
     e.preventDefault();
-    const res = await fetch(${API_URL}/gestor/configuracao, {
+    const res = await fetch('${API_URL}/gestor/configuracao', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -236,7 +236,7 @@ document.getElementById("formConfigExpediente").addEventListener("submit", async
 });
 
 document.getElementById("btnFecharDiaAgora").addEventListener("click", async () => {
-    const res = await fetch(${API_URL}/gestor/fechar-dia, {
+    const res = await fetch('${API_URL}/gestor/fechar-dia', {
         method: "POST",
         credentials: "include"
     });
@@ -250,14 +250,14 @@ document.getElementById("btnFecharDiaAgora").addEventListener("click", async () 
 // =========================================================================
 async function carregarAmbienteFuncionario() {
     const [resProd, resEsp] = await Promise.all([
-        fetch(${API_URL}/produtos, { credentials: "include" }),
-        fetch(${API_URL}/espacos, { credentials: "include" })
+        fetch('${API_URL}/produtos,', { credentials: "include" }),
+        fetch('${API_URL}/espacos,', { credentials: "include" })
     ]);
     produtosCache = await resProd.json();
     const espacos = await resEsp.json();
 
     const livreTotal = espacos.reduce((acc, e) => acc + e.espaco_livre, 0);
-    document.getElementById("fEspacoLivre").textContent = ${livreTotal} un.;
+    document.getElementById("fEspacoLivre").textContent = '${livreTotal} un.;'
 
     const espacoComRef = espacos.find(e => e.recebimento_ref && e.recebimento_ref !== "N/A");
     document.getElementById("fUltimoRecebimento").textContent = espacoComRef ? espacoComRef.recebimento_ref : "Sem registro";

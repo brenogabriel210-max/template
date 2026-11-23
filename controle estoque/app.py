@@ -8,11 +8,11 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 
-BASE_DIR = os.path.abspath(os.path.dirname(_file_))
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 UPLOAD_FOLDER = os.path.join(BASE_DIR, "uploads", "sobras")
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-app = Flask(_name_, static_folder=BASE_DIR, static_url_path="")
+app = Flask(__name__, static_folder=BASE_DIR, static_url_path="")
 app.config["SECRET_KEY"] = "stockflow-pro-secret-2026"
 app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{os.path.join(BASE_DIR, 'estoque_fluxo.db')}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -492,4 +492,4 @@ def alterar_preco():
         valor_unitario=produto.preco
     )
     db.session.commit()
-    return jsonify({"mensagem": "Preço atualizado com sucesso
+    return jsonify({"mensagem": "Preço atualizado com sucesso"})
